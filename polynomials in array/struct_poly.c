@@ -62,7 +62,7 @@ poly addpolynomial(poly p1,poly p2)
         else if(p2.t[j].exp>p1.t[i].exp)
         {
             p3.t[k].exp=p2.t[j].exp;
-            p3.t[k].coeff=p3.t[j].coeff;
+            p3.t[k].coeff=p2.t[j].coeff;
             j++;
             k++;
         }
@@ -116,12 +116,36 @@ poly attachterm(poly p,term r)
     return p;
 }
 
+poly multiplypoly(poly p1,poly p2)
+{
+    poly p3=createpoly();
+
+    for(int i=0;i<p1.nt;i++)
+    {
+        for(int j=0;j<p2.nt;j++)
+        {
+            int t=p1.t[i].coeff*p2.t[j].coeff;
+            if(t)
+            {
+            term r;
+            r.coeff=t;
+            r.exp=p1.t[i].exp+p2.t[j].exp;
+            
+            p3=attachterm(p3,r);
+            }
+        }
+    }
+    
+    return p3;
+}
+
 int main()
 {
     poly p;
     poly p1;
     poly p2;
     poly p3;
+    poly p4;
 
     term t1={2,12};
     term t2={7,2};
@@ -132,6 +156,7 @@ int main()
     p1=createpoly();
     p2=createpoly();
     p3=createpoly();
+    p4=createpoly();
 
     p1=attachterm(p,t1);
     p1=attachterm(p1,t2);
@@ -143,8 +168,10 @@ int main()
     printpoly(p2);
 
     p3=addpolynomial(p1,p2);
+    p4=multiplypoly(p1,p2);
 
     printpoly(p3);
+    printpoly(p4);
 
     return 0;
 
