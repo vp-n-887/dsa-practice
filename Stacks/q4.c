@@ -1,6 +1,7 @@
 #include<stdio.h>
 #define MAX_SIZE 10
 
+
 typedef struct{
 char val[MAX_SIZE];
 int top;
@@ -24,7 +25,6 @@ int isfull(stack s)
     if(s.top==MAX_SIZE-1){return 1;}
     return 0;
 }
-
 void push(stack *s,char val)
 {
     if(isfull(*s)){return;}
@@ -52,6 +52,30 @@ void print(stack s)
     }
 }
 
+int wwr(stack *s,char a[])
+{
+    int i=0;
+    int period=-1;
+    char x;
+
+    while(a[i]!='0')
+    {
+        if(a[i]=='.'){i++;period=i;break;}
+        push(s,a[i]);
+        i++;
+    }
+
+    if(period==-1){return 0;}
+
+    while(!isempty(*s))
+    {
+        pop(s,&x);
+        if(x!=a[i]){return 0;}
+        i++;
+    }
+    
+    return 1;
+}
 
 int main()
 {
@@ -59,51 +83,28 @@ int main()
 
     s1=createstack();
     char a[10];
+    //char x;
+    //int format=1;
 
     printf("enter string: ");
-    gets(a);
+    scanf("%s",a);
 
-    int i=0;
-    int reverse=1;
-    char x;
-    int period=-1;
-
-    while(a[i]!='\0')
-    {if(a[i]=='.')
-        {period=i;
-        break;}
-        i++;
-    }
-
-    if(period==-1){printf("'.' not found");return 0;}
-
-    i=0;
-
-
-    while(a[i]!='\0')
+    /*int i=0;
+    while(a[i]!='0')
     {
-        if(i<period)
-        {
-           push(&s1,a[i]);
-        }
-
-        else if(i>period)
-        {
-            pop(&s1,&x);
-            if(x!=a[i])
-            {
-                reverse=0;
-                break;
-            }
-        }
+        if(a[i]=='.'){i++;break;}
+        push(&s1,a[i]);
         i++;
-
     }
 
-    if(reverse==1){printf("in the format");}
-    else {printf("not in the format");}
+    while(!isempty(s1))
+    {
+        pop(&s1,&x);
+        if(x!=a[i]){format=0;break;}
+        i++;
+    }*/
 
-
+    if(wwr(&s1,a)){printf("in format w.w(reverse)");}
+    else{printf("not in the format");}
     return 0;
-
 }
