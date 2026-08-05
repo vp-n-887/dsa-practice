@@ -95,6 +95,52 @@ void create(NODE **l)
     *l=NULL;
 }
 
+NODE* delete(NODE*l,int data)
+{
+    NODE dummy;
+    dummy.next=l;
+
+    NODE* prev=&dummy;
+    NODE* curr=l;
+
+    while(curr!=NULL)
+    {
+        if(curr->data==data)
+        {
+            prev->next=curr->next;
+            free(curr);
+            curr=prev->next;
+        }
+
+        else{
+            prev=curr;
+            curr=curr->next;
+        }
+    }
+
+    return l;
+}
+
+NODE* deletepos(NODE *l,int pos)
+{
+    if(!l){return NULL;}
+
+    if(pos==1){return l->next;}
+
+    int cp=1;
+    NODE*t =l;
+
+    while(cp<pos-1&&t->next)
+    {
+        t=t->next;
+        cp++;
+    }
+
+    if(t->next){t->next=t->next->next;}
+
+    return l;
+}
+
 
 
 int main()
